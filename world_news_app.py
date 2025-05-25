@@ -3,12 +3,12 @@ import requests
 import time
 import os
 
-# === Page Config ===
-st.set_page_config(page_title="🌍 Global Top News", layout="wide")
+# === Page Setup ===
+st.set_page_config(page_title="🌍 Top World News", layout="wide")
 st.title("🌍 Top World News")
 st.caption(f"Last updated: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
-# === Load API Key ===
+# === Load API Key from Streamlit Secrets ===
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
 # === Function to Fetch Top Headlines ===
@@ -37,7 +37,7 @@ def get_top_news():
 # === Manual Refresh Button ===
 if st.button("🔄 Refresh News"):
     st.cache_data.clear()
-    st.experimental_rerun()
+    st.rerun()  # ✅ updated from st.experimental_rerun()
 
 # === Display News ===
 news = get_top_news()

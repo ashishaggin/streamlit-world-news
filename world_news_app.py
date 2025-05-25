@@ -4,22 +4,19 @@ import time
 import os
 
 # === Page Config ===
-st.set_page_config(page_title="India & US Economy News", layout="wide")
-st.title("🌏 India & US Economy News")
+st.set_page_config(page_title="🌍 Global Top News", layout="wide")
+st.title("🌍 Top World News")
 st.caption(f"Last updated: {time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # === Load API Key ===
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 
-# === Function to Fetch Focused News ===
+# === Function to Fetch Top Headlines ===
 @st.cache_data(ttl=3600)
 def get_top_news():
-    keywords = "India OR USA OR economy OR inflation OR GDP OR RBI OR Federal Reserve OR Nirmala OR Powell"
     url = (
-        f"https://newsapi.org/v2/everything?"
-        f"q={keywords}&"
+        f"https://newsapi.org/v2/top-headlines?"
         f"language=en&"
-        f"sortBy=publishedAt&"
         f"pageSize=10&"
         f"apiKey={NEWS_API_KEY}"
     )
@@ -45,15 +42,12 @@ if st.button("🔄 Refresh News"):
 # === Display News ===
 news = get_top_news()
 if not news:
-    st.warning("⚠️ No news available for the selected criteria.")
+    st.warning("⚠️ No news available at the moment.")
 else:
     for i, article in enumerate(news, 1):
         st.subheader(f"{i}. {article.get('title', 'No title')}")
         st.write(f"**Source**: {article.get('source', {}).get('name', 'Unknown')}")
         st.write(article.get('description', ''))
         if article.get('url'):
-            st.markdown(f"[🔗 Read more]({article['url']})", unsafe_allow_html=True)
-        st.markdown("---")
-
             st.markdown(f"[🔗 Read more]({article['url']})", unsafe_allow_html=True)
         st.markdown("---")
